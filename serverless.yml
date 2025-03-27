@@ -1,0 +1,28 @@
+service: simple-video-upload
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    BUCKET: "myjeet"
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: ["s3:PutObject"]
+          Resource: "arn:aws:s3:::myjeet/*"
+
+functions:
+  getUploadUrls:
+    handler: handler.getUploadUrls
+    events:
+      - http:
+          path: get-upload-urls
+          method: post
+          cors: true
+      - http:
+          path: get-upload-urls
+          method: options
+          cors: true
